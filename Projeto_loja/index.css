@@ -1,0 +1,293 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lavishly+Yours&family=Montserrat&family=Tinos&display=swap');
+
+@media (max-width: 867px) {
+    #final {
+        display: flex;          /* Garante que eles ainda sejam flex containers */
+        flex-direction: column; /* Alinha os elementos um abaixo do outro */
+        margin: 10px;
+    }
+    #contato,#form{
+      
+        font-size: 18px;
+    }
+   
+}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lavishly+Yours&family=Meddon&family=Montserrat&family=Tinos&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Isso faz com que padding e bordas não causem o estouro do layout */
+    text-align: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 18px;
+}
+
+#anuncio {
+  
+    background-color: #232323;
+    color: white;
+    padding: 7px;
+    font-size: 1.1rem;
+}
+
+#cabecalho {
+    display: flex;
+    justify-content: space-between;
+    background-color: #d741a7;
+}
+
+.material-symbols-outlined {
+    font-size: 48px;  /* Tamanho do ícone */
+    color: #fdfdfd;   /* Cor do ícone */
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+a,
+h1 {
+    text-decoration: none;
+    /* Remove o sublinhado */
+    color: inherit;
+    /* Faz com que o link tenha a mesma cor do texto normal */
+    margin: 0.2rem;
+    font-size: 18px;
+    
+}
+.contato{
+    margin: 30px;
+}
+#cabecalho>div {
+    padding: 7px;
+    font-size: x-large;
+}
+
+#capa {
+    background-image: url(img/capa_cel.png);
+  
+
+    width: 100%;
+    /* 100% da largura do contêiner pai (ou da tela) */
+    height: 50vh;
+    /* 50% da altura da tela (viewport height) */
+    object-fit: cover;
+    /* Garante que a imagem seja cortada para preencher a área sem distorcer*/
+    padding: 1px;
+}
+#tisubitulo{margin-top: 20px;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+font-size: 27px;}
+    
+#titulo {
+    margin-top: 40px;
+    font-size: 32px;
+    font-weight: bold;
+  
+    color: #D17A00; /* Cor de chocolate quente */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    line-height: 1.2    
+}
+
+#subitulo {
+font-family: "Meddon", serif;
+font-weight: 900;
+font-style: normal;
+margin-bottom: 60px; 
+color: rgb(30, 10, 250);
+}
+
+#compra {
+    color: rgb(255, 255, 255);
+    background-color: #ffaa007e;
+    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: solid 1px rgba(0, 0, 0, 0.476);
+    border-radius: 7px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.455);
+}
+
+main>h1{
+    margin: 10px;
+    font-size: 30px;
+  
+}
+#produtos{  display: flex;
+    flex-wrap: wrap; /* Permite que os itens quebrem de linha quando necessário */
+    gap: 10px; /* Espaço entre os itens */
+margin: 15px;
+}
+    
+
+
+img {
+    height: 220px;
+    width: 400px;
+}
+
+.produto p {
+    margin: 0; /* Remove a margem do parágrafo */
+    word-wrap: break-word; /* Garante que palavras longas quebrem quando necessário */
+    overflow: hidden; /* Impede que o texto ultrapasse os limites da div */
+    text-overflow: ellipsis; /* Adiciona '...' ao final do texto */
+    white-space: normal; /* Permite que o texto quebre normalmente */
+    width: 100%; /* Garante que o parágrafo ocupe toda a largura disponível */
+    box-sizing: border-box;
+}
+  
+#grupo {
+    display: flex;
+    /* Usando flexbox para colocar os elementos na mesma linha */
+    overflow-x: auto;
+    /* Permite a rolagem horizontal */
+    white-space: nowrap;
+    /* Impede que os itens quebrem para a linha (apenas para o contêiner) */
+}
+
+.individuo {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    /* Reduz a margem entre os itens */
+    padding: 1px;
+    display: flex;
+    flex-direction: column;
+   
+    height: 40%;
+    width: 35%;
+    margin: 10px;
+}
+
+.individuo img {
+    width: 100%;
+    /* Imagem ocupa 100% da largura da div */
+    height: auto;
+    /* Mantém a proporção das imagens */
+    margin-bottom: 10px;
+    /* Espaço entre a imagem e o texto */
+}
+
+.individuo p {
+    word-wrap: break-word;
+    /* Permite a quebra de linha no texto */
+    white-space: normal;
+    /* Garante que o texto possa quebrar a linha */
+    margin: 0;
+    /* Remove margens extras do parágrafo */
+}
+
+#final {
+    display: flex;
+    justify-content: space-evenly;
+} 
+ div>p,h2{
+    margin: 20px;
+    font-size: 20px;
+    
+ }
+  
+  /* Estilo para o formulário */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  
+  }
+  
+  /* Estilo dos labels */
+  label {
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+  
+  /* Estilo dos campos de entrada */
+  input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    outline: none;
+    transition: border 0.3s ease;
+  }
+  
+  /* Efeito ao focar nos campos de entrada */
+  input:focus {
+    border: 1px solid #00ff08;
+  }
+  
+  /* Estilo dos botões */
+  button {
+    padding: 12px;
+    font-size: 16px;
+    color: white;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  /* Estilo para o campo de data (opcional) */
+  input[type="date"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  #conside{margin: 20px;
+font-size: 18px;}
+.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+.dark-mode h1, .dark-mode p {
+    color: #ffffff;
+}
+
+/* Estilos do botão (ícone de alternância) */
+.mode-toggle {
+    font-size: 36px;
+    cursor: pointer;
+    display: block;
+    
+    transition: color 0.3s;
+}
+
+/* Ícones de modo claro e escuro */
+.mode-toggle {
+    color: #ffab00;  /* Cor do ícone no modo claro */
+}
+
+/* Modo escuro - Ícone do toggle */
+.dark-mode .mode-toggle {
+    color: #000000;  /* Cor do ícone no modo escuro */
+}
+
+.light-mode #anuncio{
+    background-color: #efab00;
+    color:  #232323;
+}
+#conside{
+    background-color: #d741a7;
+    font-size: 18px;
+    margin: 0px;
+  
+    color: white;
+    padding: 7px;
+    margin-top: 15px;
+}
+#contato{text-align: center;
+    margin: 12px;
+}
