@@ -22,21 +22,6 @@ setTimeout(function () {
     setInterval(anuncio, 3000); // Subsequentemente, a cada 3 segundos
 }, 4000);
 
-let indice = 0; // Definindo o índice global fora da função para manter seu valor entre as chamadas
-
-const imagens = [
-    "img/marron_foto1.jpg",
-    "img/marron_foto2.jpg"
-];
-
-function troca_imagen1() {
-    const img = document.getElementById('primeira'); // Acessando a imagem pelo ID
-    img.src = imagens[indice]; // Atualizando a fonte da imagem com base no índice
-
-    indice = (indice + 1) % imagens.length; // Incrementa o índice e reinicia ao atingir o final do array
-}
-setInterval(troca_imagen1, 2000);
-
 function validarFormulario(event) {
     event.preventDefault();  // Impede o envio do formulário até que a validação seja feita
 
@@ -91,3 +76,71 @@ modeToggle.addEventListener('click', () => {
         modeToggle.textContent = 'wb_sunny'; // Muda para ícone de sol (dia)
     }
 });
+function trocaImagemEntreUrls1(url1, url2) {
+    const imagemElement = document.getElementById('im1');
+    let currentImage = url1;
+    setInterval(() => {
+        currentImage = (currentImage === url1) ? url2 : url1;
+        imagemElement.src = currentImage;
+    }, 2500);
+}
+
+function trocaImagemEntreUrls2(url1, url2) {
+    const imagemElement = document.getElementById('im4');
+    let currentImage = url1;
+    setInterval(() => {
+        currentImage = (currentImage === url1) ? url2 : url1;
+        imagemElement.src = currentImage;
+    }, 2500);
+}
+function trocaImagemEntreUrls3(url1, url2) {
+    const imagemElement = document.getElementById('im6');
+    let currentImage = url1;
+    setInterval(() => {
+        currentImage = (currentImage === url1) ? url2 : url1;
+        imagemElement.src = currentImage;
+    }, 2500);
+}
+// Chamando as funções com as URLs específicas
+trocaImagemEntreUrls1('img/marron_foto1.jpg', 'img/marron_foto2.jpg');
+trocaImagemEntreUrls2('img/bv1.jpg', 'img/bv2.jpg');
+trocaImagemEntreUrls3('img/br1.jpg', 'img/br2.jpg')
+function trocarImagensDeFundo() {
+    const imagens = [
+        'img/pexels-anete-lusina-4792084.jpg',
+        'img/pexels-karolina-grabowska-6634688.jpg',
+        'img/pexels-ron-lach-9850823.jpg'
+    ];
+
+    let indice = 0;
+    function mudarImagem() {
+        const capa = document.getElementById('capa');
+        capa.style.backgroundImage = `url(${imagens[indice]})`;
+        
+        // Atualiza o índice para a próxima imagem
+        indice = (indice + 1) % imagens.length;
+    }
+
+    // Muda a imagem a cada 4 segundos
+    setInterval(mudarImagem, 4000);  // 4000 ms = 4 segundos
+}
+
+// Verifica se a largura da tela é maior ou igual a 868px
+const mediaQuery = window.matchMedia("(min-width: 868px)");
+
+function verificarTela() {
+    if (mediaQuery.matches) {
+        // Inicia a troca de imagens se a largura for maior ou igual a 868px
+        trocarImagensDeFundo();
+    } else {
+        // Se a largura for menor, você pode limpar ou desativar a troca de imagens
+        clearInterval(mudarImagem);
+        document.getElementById('capa').style.backgroundImage = ''; // Limpa a imagem de fundo
+    }
+}
+
+// Inicializa a verificação
+verificarTela();
+
+// Substituindo addListener por addEventListener
+mediaQuery.addEventListener('change', verificarTela);

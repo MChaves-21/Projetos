@@ -1,20 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lavishly+Yours&family=Montserrat&family=Tinos&display=swap');
-
-@media (max-width: 867px) {
-    #final {
-        display: flex;          /* Garante que eles ainda sejam flex containers */
-        flex-direction: column; /* Alinha os elementos um abaixo do outro */
-        margin: 10px;
-    }
-    #contato,#form{
-      
-        font-size: 18px;
-    }
-   
-}
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Lavishly+Yours&family=Meddon&family=Montserrat&family=Tinos&display=swap');
-
-
 * {
     margin: 0;
     padding: 0;
@@ -30,11 +13,11 @@ body {
 }
 
 #anuncio {
-  
+
     background-color: #232323;
     color: white;
     padding: 7px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
 }
 
 #cabecalho {
@@ -44,8 +27,10 @@ body {
 }
 
 .material-symbols-outlined {
-    font-size: 48px;  /* Tamanho do ícone */
-    color: #fdfdfd;   /* Cor do ícone */
+    font-size: 48px;
+    /* Tamanho do ícone */
+    color: #fdfdfd;
+    /* Cor do ícone */
     margin-right: 10px;
     margin-left: 10px;
 }
@@ -58,49 +43,55 @@ h1 {
     /* Faz com que o link tenha a mesma cor do texto normal */
     margin: 0.2rem;
     font-size: 18px;
-    
+
 }
-.contato{
-    margin: 30px;
-}
+
 #cabecalho>div {
     padding: 7px;
     font-size: x-large;
 }
 
 #capa {
-    background-image: url(img/capa_cel.png);
-  
-
     width: 100%;
     /* 100% da largura do contêiner pai (ou da tela) */
-    height: 50vh;
+    height: 70vh;
     /* 50% da altura da tela (viewport height) */
     object-fit: cover;
     /* Garante que a imagem seja cortada para preencher a área sem distorcer*/
     padding: 1px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
-#tisubitulo{margin-top: 20px;
-    color: rgb(0, 0, 0);
+
+#tisubitulo {
+    margin-top: 20px;
+    color:#850993;
     font-weight: 700;
-font-size: 27px;}
-    
+    font-size: 1.5rem;
+    letter-spacing: 0.5px; /* Ajuste do espaçamento entre as letras */
+
+}
+
 #titulo {
     margin-top: 40px;
-    font-size: 32px;
+    font-size: 2rem;
     font-weight: bold;
-  
-    color: #D17A00; /* Cor de chocolate quente */
+
+    color: #D17A00;
+    /* Cor de chocolate quente */
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    line-height: 1.2    
+    line-height: 1.2
 }
 
 #subitulo {
-font-family: "Meddon", serif;
-font-weight: 900;
-font-style: normal;
-margin-bottom: 60px; 
-color: rgb(30, 10, 250);
+
+    font-weight: 900;
+    font-style: normal;
+    margin-bottom: 60px;
+    color: #850993;
+    font-size: 1.3rem;
+    display: line;
 }
 
 #compra {
@@ -114,34 +105,52 @@ color: rgb(30, 10, 250);
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.455);
 }
 
-main>h1{
-    margin: 10px;
-    font-size: 30px;
-  
+#compra:hover {
+    background-color: #ffaa00;
+    border: 1 solid black;
+    transition: background-color 0.3s linear, border 0.3s linear;
 }
-#produtos{  display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem de linha quando necessário */
-    gap: 10px; /* Espaço entre os itens */
-margin: 15px;
-}
-    
 
+a:hover {
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.titulos {
+    margin: 15px;
+    font-size: 30px;
+
+}
 
 img {
-    height: 220px;
-    width: 400px;
+    max-height: 377px;
+    max-width: 350px;
+}
+
+#produtos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    justify-items: center;
+    gap: 7px;
 }
 
 .produto p {
-    margin: 0; /* Remove a margem do parágrafo */
-    word-wrap: break-word; /* Garante que palavras longas quebrem quando necessário */
-    overflow: hidden; /* Impede que o texto ultrapasse os limites da div */
-    text-overflow: ellipsis; /* Adiciona '...' ao final do texto */
-    white-space: normal; /* Permite que o texto quebre normalmente */
-    width: 100%; /* Garante que o parágrafo ocupe toda a largura disponível */
+    margin: 0;
+    /* Remove a margem do parágrafo */
+    word-wrap: break-word;
+    /* Garante que palavras longas quebrem quando necessário */
+    overflow: hidden;
+    /* Impede que o texto ultrapasse os limites da div */
+    text-overflow: ellipsis;
+    /* Adiciona '...' ao final do texto */
+    white-space: normal;
+    /* Permite que o texto quebre normalmente */
+    width: 100%;
+    /* Garante que o parágrafo ocupe toda a largura disponível */
     box-sizing: border-box;
 }
-  
+
 #grupo {
     display: flex;
     /* Usando flexbox para colocar os elementos na mesma linha */
@@ -153,15 +162,13 @@ img {
 
 .individuo {
     flex: 0 0 auto;
-    margin-right: 10px;
+    margin-right: 5px;
     /* Reduz a margem entre os itens */
-    padding: 1px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-   
     height: 40%;
-    width: 35%;
-    margin: 10px;
+    width: 44%;
 }
 
 .individuo img {
@@ -185,46 +192,48 @@ img {
 #final {
     display: flex;
     justify-content: space-evenly;
-} 
- div>p,h2{
+}
+
+div>p,
+h2 {
     margin: 20px;
     font-size: 20px;
-    
- }
-  
-  /* Estilo para o formulário */
-  form {
+
+}
+
+/* Estilo para o formulário */
+form {
     display: flex;
     flex-direction: column;
     gap: 15px;
-  
-  }
-  
-  /* Estilo dos labels */
-  label {
+
+}
+
+/* Estilo dos labels */
+label {
     font-size: 14px;
     color: #555;
     text-align: left;
     margin-bottom: 5px;
-  }
-  
-  /* Estilo dos campos de entrada */
-  input {
+}
+
+/* Estilo dos campos de entrada */
+input {
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 4px;
     outline: none;
     transition: border 0.3s ease;
-  }
-  
-  /* Efeito ao focar nos campos de entrada */
-  input:focus {
+}
+
+/* Efeito ao focar nos campos de entrada */
+input:focus {
     border: 1px solid #00ff08;
-  }
-  
-  /* Estilo dos botões */
-  button {
+}
+
+/* Estilo dos botões */
+button {
     padding: 12px;
     font-size: 16px;
     color: white;
@@ -233,26 +242,32 @@ img {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
+}
+
+button:hover {
     background-color: #45a049;
-  }
-  /* Estilo para o campo de data (opcional) */
-  input[type="date"] {
+}
+
+/* Estilo para o campo de data (opcional) */
+input[type="date"] {
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ddd;
     border-radius: 4px;
-  }
-  #conside{margin: 20px;
-font-size: 18px;}
+}
+
+#conside {
+    margin: 20px;
+    font-size: 18px;
+}
+
 .dark-mode {
     background-color: #121212;
     color: #ffffff;
 }
 
-.dark-mode h1, .dark-mode p {
+.dark-mode h1,
+.dark-mode p {
     color: #ffffff;
 }
 
@@ -261,33 +276,106 @@ font-size: 18px;}
     font-size: 36px;
     cursor: pointer;
     display: block;
-    
+
     transition: color 0.3s;
 }
 
 /* Ícones de modo claro e escuro */
 .mode-toggle {
-    color: #ffab00;  /* Cor do ícone no modo claro */
+    color: #ffab00;
+    /* Cor do ícone no modo claro */
 }
 
 /* Modo escuro - Ícone do toggle */
 .dark-mode .mode-toggle {
-    color: #000000;  /* Cor do ícone no modo escuro */
+    color: #000000;
+    /* Cor do ícone no modo escuro */
 }
 
-.light-mode #anuncio{
-    background-color: #efab00;
-    color:  #232323;
+.light-mode #anuncio {
+    background-color: #e5ce96;
+    color: #232323;
 }
-#conside{
+
+#conside {
     background-color: #d741a7;
     font-size: 18px;
     margin: 0px;
-  
+
     color: white;
     padding: 7px;
     margin-top: 15px;
 }
-#contato{text-align: center;
+
+#contato {
+    text-align: center;
     margin: 12px;
+}
+
+@media (max-width: 867px) {
+    #final {
+        display: flex;
+        /* Garante que eles ainda sejam flex containers */
+        flex-direction: column;
+        /* Alinha os elementos um abaixo do outro */
+        margin: 10px;
+    }
+
+    #contato,
+    #form {
+        font-size: 18px;
+    }
+
+    #capa {
+        background-image: url('img/capa_cel.png');
+    }
+
+}
+
+@media (min-width: 868px) {
+    #grupo {
+        overflow-x: hidden;
+        /* Garantindo que não haja rolagem lateral */
+        flex-wrap: wrap;
+        /* Faz os itens quebrarem para a linha seguinte se não caberem */
+        justify-content: space-evenly;
+        align-content: center;
+    }
+
+    .individuo {
+        max-width: 450px;
+        height: auto;
+        width: auto;
+    }
+
+    .individuo img {
+
+        height: auto;
+        margin-bottom: 15px;
+        margin: auto
+    }
+
+    #cont {
+        margin-top: 100px
+    }
+
+    #capa {
+        background-image: url('img/pexels-anete-lusina-4792084.jpg');
+        background-size: cover;
+        /* Preenche o contêiner e corta a imagem se necessário */
+        background-position: center;
+        /* Centraliza a imagem */
+    }
+
+    #tisubitulo {
+        font-size: 2rem;
+    }
+
+    #titulo {
+        font-size: 2.5rem;
+    }
+
+    #subitulo {
+        font-size: 1.5rem;
+    }
 }
