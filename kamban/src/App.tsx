@@ -1,11 +1,12 @@
+import { Box, Heading } from "@radix-ui/themes"
 
 function App(){
   return(
-  <>
-    <h1>
-      kambam
-    </h1>
-  </>)
+  
+  <Box>
+    <Heading>react kambam</Heading>
+  </Box>
+  )
 }
 
 export default App
