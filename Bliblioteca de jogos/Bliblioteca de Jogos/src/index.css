@@ -1,0 +1,113 @@
+/* Reset simples */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #121212;
+  color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+#app {
+  max-width: 800px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #00bcd4;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+form label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #bbb;
+}
+
+form input {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  background: #2c2c2c;
+  color: #fff;
+}
+
+form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #00bcd4;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+form button:hover {
+  background: #0097a7;
+}
+
+.games {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.game {
+  background: #1e1e1e;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.game:hover {
+  transform: scale(1.05);
+}
+
+.game h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.game img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.game button {
+  background: #e53935;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px; 
+}
+
+.game button:hover {
+  background: #c62828;
+}
