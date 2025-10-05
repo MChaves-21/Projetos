@@ -1,1 +1,0 @@
-Projeto desenvolvido no curso da One Bit Code, focado na prática de TypeScript, React e na integração da biblioteca Radix UI.
