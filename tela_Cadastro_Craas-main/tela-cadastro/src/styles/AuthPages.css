@@ -1,0 +1,140 @@
+/* Reset e base */
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {
+background: #f3f4f6;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+font-family: Arial, sans-serif;
+}
+
+.auth-container {
+  width: 500px;                /* aumentei a largura */
+  margin: 0 auto;              /* centraliza horizontalmente */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  position: relative;
+  top: 50%;
+  transform: translateY(20%);  /* centraliza mais verticalmente */
+}
+.auth-container {
+  width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  position: relative;
+  top: 50%;
+  transform: translateY(20%);
+  transition: all 0.3s ease;   /* suaviza a animação */
+}
+
+/* Efeito hover no container */
+.auth-container:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* sombra mais forte */
+  transform: translateY(15%);                 /* leve subida */
+  scale: 1.02;                                /* cresce 2% */
+}
+
+
+
+/* Abas superiores (login/cadastro) */
+.auth-tabs {
+display: flex;
+justify-content: space-between;
+}
+
+.auth-tabs button {
+flex: 1;
+padding: 14px 0;
+border: none;
+cursor: pointer;
+background: #f3f4f6;
+font-weight: bold;
+
+font-size: 16px;
+color: #555;
+transition: all 0.3s ease;
+}
+
+.auth-tabs button.active {
+background: #fff;
+border-bottom: 3px solid #ff7a00;
+color: #000;
+}
+
+.auth-tabs button:hover {
+background: #e6e6e6;
+}
+
+/* Conteúdo (formulários) */
+.auth-content {
+padding: 25px;
+}
+
+.auth-content h2 {
+margin-bottom: 15px;
+color: #006400;
+text-align: center;
+}
+
+.auth-content input {
+width: 100%;
+
+padding: 10px;
+margin-bottom: 14px;
+border: 1px solid #ccc;
+border-radius: 6px;
+outline: none;
+transition: border-color 0.2s;
+}
+
+.auth-content input:focus {
+border-color: #ff7a00;
+}
+
+.auth-content button {
+width: 100%;
+background: #ff7a00;
+color: white;
+font-weight: bold;
+border: none;
+border-radius: 6px;
+padding: 12px;
+cursor: pointer;
+transition: background 0.3s;
+}
+
+.auth-content button:hover {
+background: #e56e00;
+}
+
+/* Mensagens de feedback */
+.mensagem {
+margin-top: 10px;
+text-align: center;
+font-weight: bold;
+font-size: 14px;
+transition: opacity 0.3s ease;
+}
+
+.mensagem.sucesso {
+color: #0f9d58;
+}
+
+.mensagem.erro {
+color: #d93025;
+}
