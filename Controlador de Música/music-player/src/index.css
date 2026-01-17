@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Isso diz ao Tailwind para usar a classe .dark no html/body */
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+}
+
+.dark {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
