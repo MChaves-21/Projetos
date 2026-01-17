@@ -55,28 +55,24 @@ export default function App() {
     <div className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
       <div className="relative z-10 p-4 md:p-10 pb-64">
 
-        {/* HEADER COM SEU ÍCONE E NOME GSA */}
+        {/* HEADER LIMPO (LOGO E NOME SOLTOS) */}
         <header className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-8 mb-20">
           <div className="flex items-center gap-6">
-            {/* O SEU ÍCONE BAIXADO */}
             <div className="w-20 h-20 overflow-hidden">
               <img
                 src={logoGsa}
                 alt="GSA Logo"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 onError={(e) => {
-                  // Fallback caso a imagem não carregue
                   e.currentTarget.src = "https://placehold.co/400x400/3b82f6/white?text=GSA"
                 }}
               />
             </div>
 
-            {/* Nome GSA Estilizado */}
             <div className="flex flex-col">
-              <h1 className="text-8xl font-black italic tracking-tighter leading-none">
+              <h1 className="text-8xl font-black italic tracking-tighter leading-none uppercase">
                 GSA
               </h1>
-
             </div>
           </div>
 
@@ -101,13 +97,14 @@ export default function App() {
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
+        {/* MAIN COM EFEITO DE CARD (Fundo, Bordas e Padding) */}
+        <main className="max-w-7xl mx-auto bg-zinc-50 dark:bg-zinc-900/50 p-8 md:p-12 rounded-[3rem] border border-zinc-100 dark:border-white/5 shadow-sm">
+          <div className="flex items-center justify-between mb-12 flex-wrap gap-4">
             <h2 className="text-3xl font-bold">
-              {showFavorites ? 'Favorites' : 'Discover'}
+              {showFavorites ? 'Favoritos' : 'Descubra novas Músicas'}
             </h2>
 
-            <div className="flex bg-zinc-100 dark:bg-zinc-800 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-700">
+            <div className="flex bg-white dark:bg-zinc-800 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-700">
               <button
                 onClick={() => { setShowFavorites(false); setVisibleCount(10); }}
                 className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${!showFavorites ? 'bg-blue-600 text-white shadow-lg' : 'text-zinc-500'}`}
@@ -151,17 +148,17 @@ export default function App() {
                         </div>
                       </div>
                     </div>
-                    <h3 className="font-bold truncate text-lg">{track.title}</h3>
-                    <p className="text-zinc-500 text-sm truncate">{track.user.name}</p>
+                    <h3 className="font-bold truncate text-lg px-2">{track.title}</h3>
+                    <p className="text-zinc-500 text-sm truncate px-2">{track.user.name}</p>
                   </div>
                 )
               })}
             </div>
           )}
 
-          {/* BOTÃO CARREGAR MAIS COM ESPAÇO EXTRA (MB-40) */}
+          {/* BOTÃO CARREGAR MAIS DENTRO DO CARD COM MARGEM SEGURA */}
           {sourceTracks.length > visibleCount && !loading && (
-            <div className="flex justify-center mt-20 mb-40">
+            <div className="flex justify-center mt-20 mb-10">
               <button
                 onClick={() => setVisibleCount(v => v + 10)}
                 className="group flex items-center gap-3 text-zinc-400 hover:text-blue-500 font-bold text-lg transition-all"
