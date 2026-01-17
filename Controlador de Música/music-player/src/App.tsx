@@ -24,7 +24,7 @@ export default function App() {
     else root.classList.remove('dark')
   }, [isDarkMode])
 
-  // Carregar Músicas Iniciais
+  // Carregar Músicas
   useEffect(() => {
     async function loadInitial() {
       setLoading(true)
@@ -52,13 +52,14 @@ export default function App() {
   const displayTracks = sourceTracks.slice(0, visibleCount)
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#09090b] text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
+    // Fundo Geral: Preto Puro no Dark
+    <div className="min-h-screen bg-white dark:bg-[#131328] text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
       <div className="relative z-10 p-4 md:p-10 pb-64">
 
-        {/* HEADER LIMPO (LOGO E NOME SOLTOS) */}
+        {/* HEADER LIMPO */}
         <header className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-8 mb-20">
           <div className="flex items-center gap-6">
-            <div className="w-20 h-20 overflow-hidden">
+            <div className="w-20 h-20">
               <img
                 src={logoGsa}
                 alt="GSA Logo"
@@ -68,7 +69,6 @@ export default function App() {
                 }}
               />
             </div>
-
             <div className="flex flex-col">
               <h1 className="text-8xl font-black italic tracking-tighter leading-none uppercase">
                 GSA
@@ -83,37 +83,37 @@ export default function App() {
                 placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-2xl py-4 px-6 pl-14 outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-zinc-100 dark:bg-[#0d1117] border border-zinc-200 dark:border-zinc-800 rounded-2xl py-4 px-6 pl-14 outline-none focus:ring-2 focus:ring-blue-500"
               />
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400" />
             </form>
 
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-4 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-200 dark:border-zinc-700"
+              className="p-4 rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all border border-zinc-200 dark:border-zinc-800"
             >
               {isDarkMode ? <Sun className="w-6 h-6 text-yellow-500" /> : <Moon className="w-6 h-6 text-blue-600" />}
             </button>
           </div>
         </header>
 
-        {/* MAIN COM EFEITO DE CARD (Fundo, Bordas e Padding) */}
-        <main className="max-w-7xl mx-auto bg-zinc-50 dark:bg-zinc-900/50 p-8 md:p-12 rounded-[3rem] border border-zinc-100 dark:border-white/5 shadow-sm">
+        {/* MAIN COM ALTO CONTRASTE (Deep Navy Card) */}
+        <main className="max-w-7xl mx-auto bg-zinc-100/80 dark:bg-[#0d1117] p-8 md:p-12 rounded-[3.5rem] border border-zinc-200 dark:border-blue-500/10 shadow-2xl backdrop-blur-md">
           <div className="flex items-center justify-between mb-12 flex-wrap gap-4">
             <h2 className="text-3xl font-bold">
               {showFavorites ? 'Favoritos' : 'Descubra novas Músicas'}
             </h2>
 
-            <div className="flex bg-white dark:bg-zinc-800 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-700">
+            <div className="flex bg-white dark:bg-[#050507] p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-inner">
               <button
                 onClick={() => { setShowFavorites(false); setVisibleCount(10); }}
-                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${!showFavorites ? 'bg-blue-600 text-white shadow-lg' : 'text-zinc-500'}`}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${!showFavorites ? 'bg-blue-600 text-white shadow-lg' : 'text-zinc-500 hover:text-blue-500'}`}
               >
                 Geral
               </button>
               <button
                 onClick={() => { setShowFavorites(true); setVisibleCount(10); }}
-                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${showFavorites ? 'bg-red-600 text-white shadow-lg' : 'text-zinc-500'}`}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${showFavorites ? 'bg-red-600 text-white shadow-lg' : 'text-zinc-500 hover:text-red-500'}`}
               >
                 Favoritos ({favorites.length})
               </button>
@@ -132,13 +132,13 @@ export default function App() {
                   <div key={track.id} className="group relative">
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleFavorite(track); }}
-                      className="absolute top-3 left-3 z-20 p-2.5 rounded-xl bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all"
+                      className="absolute top-3 left-3 z-20 p-2.5 rounded-xl bg-black/40 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:scale-110"
                     >
                       <Heart className={`w-4 h-4 ${isFavorite ? 'fill-red-500 text-red-500' : 'text-white'}`} />
                     </button>
 
                     <div
-                      className="relative aspect-square overflow-hidden rounded-[2.5rem] mb-5 shadow-xl cursor-pointer bg-zinc-100 dark:bg-zinc-800"
+                      className="relative aspect-square overflow-hidden rounded-[2.5rem] mb-5 shadow-xl cursor-pointer bg-white dark:bg-[#050507]"
                       onClick={() => setCurrentTrack(track)}
                     >
                       <img src={track.artwork["480x480"]} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="" />
@@ -149,16 +149,15 @@ export default function App() {
                       </div>
                     </div>
                     <h3 className="font-bold truncate text-lg px-2">{track.title}</h3>
-                    <p className="text-zinc-500 text-sm truncate px-2">{track.user.name}</p>
+                    <p className="text-zinc-500 text-sm truncate px-2 font-medium">{track.user.name}</p>
                   </div>
                 )
               })}
             </div>
           )}
 
-          {/* BOTÃO CARREGAR MAIS DENTRO DO CARD COM MARGEM SEGURA */}
           {sourceTracks.length > visibleCount && !loading && (
-            <div className="flex justify-center mt-20 mb-10">
+            <div className="flex justify-center mt-10 mb-14">
               <button
                 onClick={() => setVisibleCount(v => v + 10)}
                 className="group flex items-center gap-3 text-zinc-400 hover:text-blue-500 font-bold text-lg transition-all"
