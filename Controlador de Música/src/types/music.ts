@@ -3,16 +3,17 @@
 export interface Track {
     id: string;
     title: string;
+    stream_url: string | undefined;
     user: {
         name: string;
     };
     artwork: {
+        "150x150"?: string; // Adicionado como opcional
         "480x480": string;
     };
     duration: number;
 }
 
-// Movendo a lógica de tipos para cá
 export interface MusicState {
     currentTrack: Track | null;
     isPlaying: boolean;
