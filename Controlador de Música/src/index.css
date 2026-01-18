@@ -19,7 +19,7 @@ body {
 
 /* --- ESTILIZAÇÃO DA BOLINHA (THUMB) --- */
 
-/* Chrome, Safari, Edge e Opera */
+/* Chrome, Safari, Edge */
 input[type="range"]::-webkit-slider-thumb {
   appearance: none;
   width: 14px;
@@ -30,7 +30,7 @@ input[type="range"]::-webkit-slider-thumb {
   border: 2px solid white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   margin-top: -5px;
-  /* Centraliza a bolinha na linha */
+  /* Centraliza na linha de 4px */
 }
 
 /* Firefox */
@@ -44,7 +44,7 @@ input[type="range"]::-moz-range-thumb {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Remove fundos padrão dos navegadores para usar o nosso gradiente */
+/* Remove estilos de trilha padrão para não conflitar com nosso gradiente */
 input[type="range"]::-webkit-slider-runnable-track {
   background: transparent;
   height: 4px;

@@ -1,78 +1,69 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import type { Track } from '../types/music'
+import { create } from 'zustand';
+import type { Track } from '../types/music';
 
 interface MusicState {
-    tracks: Track[]
-    currentTrack: Track | null
-    favorites: Track[]
-    history: Track[]
-    volume: number // Novo
-    setTracks: (tracks: Track[]) => void
-    setCurrentTrack: (track: Track) => void
-    setVolume: (volume: number) => void // Novo
-    toggleFavorite: (track: Track) => void
-    playNext: () => void // Novo
-    playPrevious: () => void // Novo
+    tracks: Track[]; // Faltava isso
+    currentTrack: Track | null;
+    isPlaying: boolean;
+    volume: number;
+    favorites: Track[];
+    history: Track[];
+
+    // Ações
+    setTracks: (tracks: Track[]) => void; // Faltava isso
+    setCurrentTrack: (track: Track | null) => void;
+    setIsPlaying: (playing: boolean) => void;
+    setVolume: (volume: number) => void;
+    toggleFavorite: (track: Track) => void;
+    addToHistory: (track: Track) => void;
+    playNext: () => void; // Faltava isso
+    playPrevious: () => void; // Faltava isso
 }
 
-export const useMusicStore = create<MusicState>()(
-    persist(
-        (set, get) => ({
-            tracks: [],
-            currentTrack: null,
-            favorites: [],
-            history: [],
-            volume: 1, // Volume máximo por padrão (0 a 1)
+export const useMusicStore = create<MusicState>((set, get) => ({
+    tracks: [],
+    currentTrack: null,
+    isPlaying: false,
+    volume: 1,
+    favorites: [],
+    history: [],
 
-            setTracks: (tracks) => set({ tracks }),
+    setTracks: (tracks) => set({ tracks }),
 
-            setVolume: (volume) => set({ volume }),
+    setCurrentTrack: (track) => {
+        set({ currentTrack: track, isPlaying: !!track });
+        if (track) get().addToHistory(track);
+    },
 
-            setCurrentTrack: (track) => set((state) => {
-                const filteredHistory = state.history.filter((t) => t.id !== track.id)
-                return {
-                    currentTrack: track,
-                    history: [track, ...filteredHistory].slice(0, 10)
-                }
-            }),
+    setIsPlaying: (playing) => set({ isPlaying: playing }),
 
-            // Lógica para pular música
-            playNext: () => {
-                const { tracks, currentTrack, setCurrentTrack } = get()
-                const currentIndex = tracks.findIndex(t => t.id === currentTrack?.id)
-                if (currentIndex !== -1 && currentIndex < tracks.length - 1) {
-                    setCurrentTrack(tracks[currentIndex + 1])
-                } else if (tracks.length > 0) {
-                    setCurrentTrack(tracks[0]) // Volta para a primeira se acabar a lista
-                }
-            },
+    setVolume: (volume) => set({ volume }),
 
-            // Lógica para voltar música
-            playPrevious: () => {
-                const { tracks, currentTrack, setCurrentTrack } = get()
-                const currentIndex = tracks.findIndex(t => t.id === currentTrack?.id)
-                if (currentIndex > 0) {
-                    setCurrentTrack(tracks[currentIndex - 1])
-                }
-            },
+    toggleFavorite: (track) => set((state) => ({
+        favorites: state.favorites.some((f) => f.id === track.id)
+            ? state.favorites.filter((f) => f.id !== track.id)
+            : [...state.favorites, track],
+    })),
 
-            toggleFavorite: (track) => set((state) => {
-                const isFav = state.favorites.some((f) => f.id === track.id)
-                return {
-                    favorites: isFav
-                        ? state.favorites.filter((f) => f.id !== track.id)
-                        : [...state.favorites, track]
-                }
-            }),
-        }),
-        {
-            name: 'gsa-music-storage',
-            partialize: (state) => ({
-                favorites: state.favorites,
-                history: state.history,
-                volume: state.volume
-            }),
-        }
-    )
-)
+    addToHistory: (track) => set((state) => ({
+        history: [track, ...state.history.filter((t) => t.id !== track.id)].slice(0, 50),
+    })),
+
+    // Lógica para avançar a música
+    playNext: () => {
+        const { tracks, currentTrack, setCurrentTrack } = get();
+        if (!currentTrack) return;
+        const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
+        const nextTrack = tracks[currentIndex + 1] || tracks[0];
+        setCurrentTrack(nextTrack);
+    },
+
+    // Lógica para voltar a música
+    playPrevious: () => {
+        const { tracks, currentTrack, setCurrentTrack } = get();
+        if (!currentTrack) return;
+        const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
+        const prevTrack = tracks[currentIndex - 1] || tracks[tracks.length - 1];
+        setCurrentTrack(prevTrack);
+    },
+}));
