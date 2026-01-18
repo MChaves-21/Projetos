@@ -29,25 +29,32 @@ export default function App() {
   const [visibleCount, setVisibleCount] = useState(10)
   const [isDarkMode, setIsDarkMode] = useState(true)
 
+  // Controle do Tema Global
   useEffect(() => {
     const root = window.document.documentElement
     if (isDarkMode) root.classList.add('dark')
     else root.classList.remove('dark')
   }, [isDarkMode])
 
+  // Busca de Dados com tratamento de erro
   const fetchData = async (request: () => Promise<Track[]>) => {
     setLoading(true)
     setError(null)
     try {
       const data = await request()
-      setTracks(data)
+      if (data.length === 0) {
+        setError('Nenhuma música encontrada neste servidor no momento.')
+      } else {
+        setTracks(data)
+      }
     } catch (err) {
-      setError('Não foi possível carregar as músicas.')
+      setError('Erro de conexão. A rede Audius pode estar instável.')
     } finally {
       setLoading(false)
     }
   }
 
+  // Carregamento Inicial
   useEffect(() => {
     if (!showFavorites && !selectedArtist) {
       fetchData(() => musicApi.getTrendingTracks())
@@ -76,9 +83,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#343838] text-zinc-900 dark:text-zinc-100 transition-colors duration-300">
 
-      {/* HEADER FIXADO
-          Escuro: #005f6b | Claro: #fa3419 (Coral vibrante)
-      */}
+      {/* HEADER FIXADO - Paletas: Claro (#fa3419) | Escuro (#005f6b) */}
       <header className="sticky top-0 z-50 w-full bg-[#fa3419] dark:bg-[#005f6b] backdrop-blur-md border-b border-black/10 dark:border-white/10 shadow-lg transition-all">
         <div className="max-w-7xl mx-auto px-6 md:px-10 h-24 flex items-center justify-between gap-8">
 
@@ -123,9 +128,7 @@ export default function App() {
 
       <div className="relative z-10 p-4 md:p-10 pb-64">
 
-        {/* CARD PRINCIPAL 
-            Escuro: #008c9e | Claro: #f3e1b6 (Tom creme/areia)
-        */}
+        {/* CARD PRINCIPAL - Paletas: Claro (#f3e1b6) | Escuro (#008c9e) */}
         <main className="max-w-7xl mx-auto bg-[#f3e1b6] dark:bg-[#008c9e] p-8 md:p-12 rounded-[3.5rem] border border-black/5 dark:border-white/20 shadow-2xl backdrop-blur-md">
 
           {selectedArtist && (
@@ -136,7 +139,12 @@ export default function App() {
               <div className="flex items-center gap-8 bg-black/5 dark:bg-black/10 p-8 rounded-[2.5rem] border border-black/10 dark:border-white/20">
                 <div className="w-32 h-32 rounded-full overflow-hidden bg-[#7cbc9a] dark:bg-[#005f6b] shadow-2xl border-4 border-white/20">
                   {selectedArtist.profile_picture ? (
-                    <img src={selectedArtist.profile_picture['150x150']} className="w-full h-full object-cover" alt="" />
+                    <img
+                      src={selectedArtist.profile_picture['150x150']}
+                      className="w-full h-full object-cover"
+                      alt=""
+                      onError={(e) => { e.currentTarget.src = "https://placehold.co/150x150/005f6b/white?text=User" }}
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white"><User size={48} /></div>
                   )}
@@ -166,32 +174,51 @@ export default function App() {
             )}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10">
-            {displayTracks.map((track) => (
-              <div key={track.id} className="group relative">
-                <button onClick={() => toggleFavorite(track)} className="absolute top-3 left-3 z-20 p-2.5 rounded-xl bg-black/20 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:scale-110">
-                  <Heart className={`w-4 h-4 ${favorites.some(f => f.id === track.id) ? 'fill-[#fa3419] text-[#fa3419]' : 'text-white'}`} />
-                </button>
+          {error ? (
+            <div className="flex flex-col items-center justify-center py-20 text-center text-[#1d5e69] dark:text-white">
+              <AlertCircle className="w-16 h-16 mb-4 opacity-50" />
+              <p className="text-xl font-medium max-w-md">{error}</p>
+              <button onClick={() => window.location.reload()} className="mt-6 underline font-bold">Recarregar App</button>
+            </div>
+          ) : loading ? (
+            <div className="flex justify-center py-40">
+              <div className="w-12 h-12 border-4 border-white/20 border-t-[#fa3419] dark:border-t-[#00dffc] rounded-full animate-spin" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10">
+              {displayTracks.map((track) => (
+                <div key={track.id} className="group relative">
+                  <button onClick={() => toggleFavorite(track)} className="absolute top-3 left-3 z-20 p-2.5 rounded-xl bg-black/20 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all hover:scale-110">
+                    <Heart className={`w-4 h-4 ${favorites.some(f => f.id === track.id) ? 'fill-[#fa3419] text-[#fa3419]' : 'text-white'}`} />
+                  </button>
 
-                <div className="relative aspect-square overflow-hidden rounded-[2.5rem] mb-5 shadow-xl cursor-pointer bg-white/20" onClick={() => setCurrentTrack(track)}>
-                  <img src={track.artwork["480x480"]} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt={track.title} />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center">
-                    <div className="bg-white p-5 rounded-full text-[#008c9e] shadow-2xl scale-75 group-hover:scale-100 transition-all"><Play className="w-8 h-8 fill-current" /></div>
+                  <div className="relative aspect-square overflow-hidden rounded-[2.5rem] mb-5 shadow-xl cursor-pointer bg-black/10" onClick={() => setCurrentTrack(track)}>
+                    <img
+                      src={track.artwork["480x480"]}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      alt={track.title}
+                      onError={(e) => { e.currentTarget.src = "https://placehold.co/480x480/008c9e/white?text=Sem+Capa" }}
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 flex items-center justify-center">
+                      <div className="bg-white p-5 rounded-full text-[#008c9e] shadow-2xl scale-75 group-hover:scale-100 transition-all">
+                        <Play className="w-8 h-8 fill-current" />
+                      </div>
+                    </div>
                   </div>
+                  <h3 className="font-bold truncate text-lg px-2 text-[#1d5e69] dark:text-white">{track.title}</h3>
+                  <p onClick={() => handleArtistClick(track.user)} className="text-[#23998e] dark:text-white/70 text-sm truncate px-2 font-medium cursor-pointer hover:underline transition-colors">
+                    {track.user.name}
+                  </p>
                 </div>
-                <h3 className="font-bold truncate text-lg px-2 text-[#1d5e69] dark:text-white">{track.title}</h3>
-                <p onClick={() => handleArtistClick(track.user)} className="text-[#23998e] dark:text-white/70 text-sm truncate px-2 font-medium cursor-pointer hover:underline transition-colors">
-                  {track.user.name}
-                </p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {sourceTracks.length > visibleCount && (
+          {sourceTracks.length > visibleCount && !loading && !error && (
             <div className="flex justify-center mt-20 mb-10">
               <button
                 onClick={() => setVisibleCount(v => v + 10)}
-                className="group flex items-center gap-3 text-[#343838] hover:opacity-80 font-bold text-xl transition-all"
+                className="group flex items-center gap-3 text-[#343838] hover:opacity-70 font-bold text-xl transition-all"
               >
                 Carregar mais músicas
                 <ChevronDown className="w-6 h-6 group-hover:translate-y-1 transition-transform" />
@@ -199,6 +226,8 @@ export default function App() {
             </div>
           )}
         </main>
+
+        {/* Componente Player com a nova lógica de áudio */}
         <Player />
       </div>
     </div>
