@@ -1,33 +1,43 @@
-// src/services/api.ts
-// src/services/api.ts
+
 import type { Track } from '../types/music';
 
-const API_BASE_URL = 'https://api.audius.co/v1';
+// Usaremos o gateway principal que redireciona automaticamente para nós saudáveis
+const API_BASE = "https://api.audius.co/v1";
 
 export const musicApi = {
     async getTrendingTracks(): Promise<Track[]> {
         try {
-            const response = await fetch(`${API_BASE_URL}/tracks/trending?app_name=MEU_PLAYER_REAC`);
-            const json = await response.json();
-            return (json.data || []) as Track[];
-        } catch (error) {
+            const res = await fetch(`${API_BASE}/tracks/trending?app_name=GSA_MUSIC`);
+            const json = await res.json();
+            return json.data || [];
+        } catch (err) {
+            console.error("Erro ao buscar tendências:", err);
             return [];
         }
     },
 
-    // VERIFIQUE SE ESTA FUNÇÃO ESTÁ EXATAMENTE ASSIM:
     async searchTracks(query: string): Promise<Track[]> {
         try {
-            const response = await fetch(`${API_BASE_URL}/tracks/search?query=${query}&app_name=MEU_PLAYER_REAC`);
-            const json = await response.json();
-            return (json.data || []) as Track[];
-        } catch (error) {
-            console.error("Erro na busca:", error);
+            const res = await fetch(`${API_BASE}/tracks/search?query=${query}&app_name=GSA_MUSIC`);
+            const json = await res.json();
+            return json.data || [];
+        } catch (err) {
+            return [];
+        }
+    },
+
+    async getUserTracks(userId: string): Promise<Track[]> {
+        try {
+            const res = await fetch(`${API_BASE}/users/${userId}/tracks?app_name=GSA_MUSIC`);
+            const json = await res.json();
+            return json.data || [];
+        } catch (err) {
             return [];
         }
     },
 
     getStreamUrl(trackId: string): string {
-        return `${API_BASE_URL}/tracks/${trackId}/stream?app_name=MEU_PLAYER_REAC`;
+        // Esta URL redireciona o áudio para um servidor ativo automaticamente
+        return `${API_BASE}/tracks/${trackId}/stream?app_name=GSA_MUSIC`;
     }
 };
