@@ -14,6 +14,7 @@ interface MusicStore {
     error: string | null
     favorites: Track[]
     history: Track[]
+    queue: Track[]
     playlists: Playlist[]
     currentTrack: Track | null
     isPlaying: boolean
@@ -26,10 +27,15 @@ interface MusicStore {
     setError: (error: string | null) => void
     setCurrentTrack: (track: Track) => void
     setIsPlaying: (isPlaying: boolean) => void
-    toggleFavorite: (track: Track) => void
+    setVolume: (vol: number) => void
     toggleShuffle: () => void
     toggleLoop: () => void
-    setVolume: (vol: number) => void
+    toggleFavorite: (track: Track) => void
+    clearHistory: () => void
+    removeFromHistory: (trackId: string) => void
+    addToQueue: (track: Track) => void
+    removeFromQueue: (trackId: string) => void
+    clearQueue: () => void
     createPlaylist: (name: string) => void
     removePlaylist: (id: string) => void
     addTrackToPlaylist: (playlistId: string, track: Track) => void
@@ -44,6 +50,7 @@ export const useMusicStore = create<MusicStore>()(
             error: null,
             favorites: [],
             history: [],
+            queue: [],
             playlists: [],
             currentTrack: null,
             isPlaying: false,
@@ -58,40 +65,34 @@ export const useMusicStore = create<MusicStore>()(
             setCurrentTrack: (track) => set((state) => ({
                 currentTrack: track,
                 isPlaying: true,
+                queue: state.queue.filter(t => t.id !== track.id),
                 history: [track, ...state.history.filter((t) => t.id !== track.id)].slice(0, 50)
             })),
 
             setIsPlaying: (isPlaying) => set({ isPlaying }),
+            setVolume: (volume) => set({ volume }),
             toggleShuffle: () => set((state) => ({ isShuffle: !state.isShuffle })),
             toggleLoop: () => set((state) => ({ isLooping: !state.isLooping })),
-            setVolume: (volume) => set({ volume }),
 
             toggleFavorite: (track) => set((state) => {
                 const isFav = state.favorites.find((t) => t.id === track.id)
-                return {
-                    favorites: isFav ? state.favorites.filter((t) => t.id !== track.id) : [...state.favorites, track]
-                }
+                return { favorites: isFav ? state.favorites.filter((t) => t.id !== track.id) : [...state.favorites, track] }
             }),
 
-            createPlaylist: (name) => set((state) => ({
-                playlists: [...state.playlists, { id: crypto.randomUUID(), name, tracks: [] }]
-            })),
+            clearHistory: () => set({ history: [] }),
+            removeFromHistory: (trackId) => set((state) => ({ history: state.history.filter(t => t.id !== trackId) })),
 
-            removePlaylist: (id) => set((state) => ({
-                playlists: state.playlists.filter((p) => p.id !== id)
-            })),
+            addToQueue: (track) => set((state) => ({ queue: state.queue.find(t => t.id === track.id) ? state.queue : [...state.queue, track] })),
+            removeFromQueue: (trackId) => set((state) => ({ queue: state.queue.filter(t => t.id !== trackId) })),
+            clearQueue: () => set({ queue: [] }),
 
+            createPlaylist: (name) => set((state) => ({ playlists: [...state.playlists, { id: crypto.randomUUID(), name, tracks: [] }] })),
+            removePlaylist: (id) => set((state) => ({ playlists: state.playlists.filter((p) => p.id !== id) })),
             addTrackToPlaylist: (playlistId, track) => set((state) => ({
-                playlists: state.playlists.map((p) =>
-                    p.id === playlistId && !p.tracks.find((t) => t.id === track.id)
-                        ? { ...p, tracks: [...p.tracks, track] } : p
-                )
+                playlists: state.playlists.map((p) => p.id === playlistId && !p.tracks.find((t) => t.id === track.id) ? { ...p, tracks: [...p.tracks, track] } : p)
             })),
-
             removeTrackFromPlaylist: (playlistId, trackId) => set((state) => ({
-                playlists: state.playlists.map((p) =>
-                    p.id === playlistId ? { ...p, tracks: p.tracks.filter((t) => t.id !== trackId) } : p
-                )
+                playlists: state.playlists.map((p) => p.id === playlistId ? { ...p, tracks: p.tracks.filter((t) => t.id !== trackId) } : p)
             })),
         }),
         {
@@ -101,8 +102,6 @@ export const useMusicStore = create<MusicStore>()(
                 history: state.history,
                 playlists: state.playlists,
                 volume: state.volume,
-                isShuffle: state.isShuffle,
-                isLooping: state.isLooping,
                 currentTrack: state.currentTrack
             })
         }
