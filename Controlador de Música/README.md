@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+![alt text](image.png)
+🎵 GSA Music Player
+O GSA Music é um player de streaming de música moderno, construído com React, TypeScript e Tailwind CSS. O projeto consome a API da Deezer para fornecer descobertas musicais, buscas e prévias de áudio de alta qualidade com uma interface fluida e responsiva.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+✨ Funcionalidades
+Descoberta (Trending): Lista as músicas mais tocadas do momento.
 
-Currently, two official plugins are available:
+Busca em Tempo Real: Pesquise por faixas, álbuns ou artistas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Discografia do Artista: Clique em um artista para ver suas músicas mais populares.
 
-## React Compiler
+Sistema de Favoritos: Salve suas faixas preferidas localmente (Zustand + Persist).
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Histórico de Reprodução: Acompanhe as últimas músicas ouvidas.
 
-## Expanding the ESLint configuration
+Player Completo: Controle de reprodução (Play/Pause/Skip), barra de progresso interativa e controle de volume.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Modo Dark/Light: Interface adaptável ao tema do sistema ou preferência do usuário.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+🚀 Tecnologias Utilizadas
+React 18 (Vite)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+TypeScript (Tipagem estrita para maior segurança)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Zustand (Gerenciamento de estado global leve e persistente)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Tailwind CSS (Estilização moderna e responsiva)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Lucide React (Pacote de ícones)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Deezer API (Via Proxy para estabilidade de rede)
+
+🛠️ Como rodar o projeto
+Clone o repositório:
+
+Bash
+git clone https://github.com/seu-usuario/gsa-music.git
+Instale as dependências:
+
+Bash
+npm install
+Inicie o servidor de desenvolvimento:
+
+Bash
+npm run dev
+📈 Evolução Técnica
+Este projeto começou utilizando a rede descentralizada Audius, mas evoluiu para a Deezer API para garantir 100% de disponibilidade de conteúdo (evitando erros 502/Timeout) e maior velocidade no carregamento de capas de álbuns e streams de áudio.

@@ -1,69 +1,87 @@
-import { create } from 'zustand';
-import type { Track } from '../types/music';
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
+import type { Track } from '../types/music'
 
-interface MusicState {
-    tracks: Track[]; // Faltava isso
-    currentTrack: Track | null;
-    isPlaying: boolean;
-    volume: number;
-    favorites: Track[];
-    history: Track[];
-
-    // Ações
-    setTracks: (tracks: Track[]) => void; // Faltava isso
-    setCurrentTrack: (track: Track | null) => void;
-    setIsPlaying: (playing: boolean) => void;
-    setVolume: (volume: number) => void;
-    toggleFavorite: (track: Track) => void;
-    addToHistory: (track: Track) => void;
-    playNext: () => void; // Faltava isso
-    playPrevious: () => void; // Faltava isso
+interface Playlist {
+    id: string
+    name: string
+    tracks: Track[]
 }
 
-export const useMusicStore = create<MusicState>((set, get) => ({
-    tracks: [],
-    currentTrack: null,
-    isPlaying: false,
-    volume: 1,
-    favorites: [],
-    history: [],
+interface MusicStore {
+    tracks: Track[]
+    favorites: Track[]
+    history: Track[]
+    playlists: Playlist[]
+    currentTrack: Track | null
+    isPlaying: boolean
+    isShuffle: boolean // NOVO
+    setTracks: (tracks: Track[]) => void
+    setCurrentTrack: (track: Track) => void
+    setIsPlaying: (isPlaying: boolean) => void
+    toggleFavorite: (track: Track) => void
+    toggleShuffle: () => void // NOVO
+    createPlaylist: (name: string) => void
+    removePlaylist: (id: string) => void // NOVO
+    addTrackToPlaylist: (playlistId: string, track: Track) => void
+    removeTrackFromPlaylist: (playlistId: string, trackId: string) => void
+}
 
-    setTracks: (tracks) => set({ tracks }),
+export const useMusicStore = create<MusicStore>()(
+    persist(
+        (set) => ({
+            tracks: [],
+            favorites: [],
+            history: [],
+            playlists: [],
+            currentTrack: null,
+            isPlaying: false,
+            isShuffle: false,
 
-    setCurrentTrack: (track) => {
-        set({ currentTrack: track, isPlaying: !!track });
-        if (track) get().addToHistory(track);
-    },
+            setTracks: (tracks) => set({ tracks }),
 
-    setIsPlaying: (playing) => set({ isPlaying: playing }),
+            setCurrentTrack: (track) => set((state) => ({
+                currentTrack: track,
+                isPlaying: true,
+                history: [track, ...state.history.filter((t) => t.id !== track.id)].slice(0, 20)
+            })),
 
-    setVolume: (volume) => set({ volume }),
+            setIsPlaying: (isPlaying) => set({ isPlaying }),
+            toggleShuffle: () => set((state) => ({ isShuffle: !state.isShuffle })),
 
-    toggleFavorite: (track) => set((state) => ({
-        favorites: state.favorites.some((f) => f.id === track.id)
-            ? state.favorites.filter((f) => f.id !== track.id)
-            : [...state.favorites, track],
-    })),
+            toggleFavorite: (track) => set((state) => {
+                const isFav = state.favorites.find((t) => t.id === track.id)
+                return {
+                    favorites: isFav
+                        ? state.favorites.filter((t) => t.id !== track.id)
+                        : [...state.favorites, track]
+                }
+            }),
 
-    addToHistory: (track) => set((state) => ({
-        history: [track, ...state.history.filter((t) => t.id !== track.id)].slice(0, 50),
-    })),
+            createPlaylist: (name) => set((state) => ({
+                playlists: [...state.playlists, { id: crypto.randomUUID(), name, tracks: [] }]
+            })),
 
-    // Lógica para avançar a música
-    playNext: () => {
-        const { tracks, currentTrack, setCurrentTrack } = get();
-        if (!currentTrack) return;
-        const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
-        const nextTrack = tracks[currentIndex + 1] || tracks[0];
-        setCurrentTrack(nextTrack);
-    },
+            removePlaylist: (id) => set((state) => ({
+                playlists: state.playlists.filter((p) => p.id !== id)
+            })),
 
-    // Lógica para voltar a música
-    playPrevious: () => {
-        const { tracks, currentTrack, setCurrentTrack } = get();
-        if (!currentTrack) return;
-        const currentIndex = tracks.findIndex(t => t.id === currentTrack.id);
-        const prevTrack = tracks[currentIndex - 1] || tracks[tracks.length - 1];
-        setCurrentTrack(prevTrack);
-    },
-}));
+            addTrackToPlaylist: (playlistId, track) => set((state) => ({
+                playlists: state.playlists.map((p) =>
+                    p.id === playlistId && !p.tracks.find((t) => t.id === track.id)
+                        ? { ...p, tracks: [...p.tracks, track] }
+                        : p
+                )
+            })),
+
+            removeTrackFromPlaylist: (playlistId, trackId) => set((state) => ({
+                playlists: state.playlists.map((p) =>
+                    p.id === playlistId
+                        ? { ...p, tracks: p.tracks.filter((t) => t.id !== trackId) }
+                        : p
+                )
+            })),
+        }),
+        { name: 'gsa-music-storage' }
+    )
+)

@@ -22,3 +22,8 @@ export interface MusicState {
     setCurrentTrack: (track: Track) => void;
     setIsPlaying: (status: boolean) => void;
 }
+export interface Playlist {
+    id: string;
+    name: string;
+    tracks: Track[];
+}
